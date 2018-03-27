@@ -12,8 +12,13 @@ describe Oystercard do
     expect(subject.top_up(80)).to eq(80)
   end
 
-  it "raises error" do
+  it "raises error when limit is exceeded" do
     expect { subject.top_up(91) }.to raise_error described_class::LIMIT_ERROR
   end
 
+  it "reflects fare on balance" do
+    subject.top_up(90)
+    expect(subject.deduct(3.5)).to eq(86.5)
+  end
+  
 end
