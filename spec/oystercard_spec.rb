@@ -20,5 +20,19 @@ describe Oystercard do
     subject.top_up(90)
     expect(subject.deduct(3.5)).to eq(86.5)
   end
-  
+
+  it "changes card status to in journey when touched in" do
+    expect(subject.touch_in).to eq(:in_journey)
+  end
+
+  it "returns true when in journey" do
+    subject.touch_in
+    expect(subject).to be_in_journey
+  end
+
+  it "changes card to nil when touched out" do
+    subject.touch_in
+    expect(subject.touch_out).to eq(nil)
+  end
+
 end

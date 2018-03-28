@@ -17,4 +17,16 @@ class Oystercard
     @balance -= fare
   end
 
+  def touch_in
+    @card_state = :in_journey
+  end
+
+  def in_journey?
+    @card_state == :in_journey
+  end
+
+  def touch_out
+    @card_state = nil
+  end
+
 end
