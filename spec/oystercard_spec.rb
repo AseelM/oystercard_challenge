@@ -16,11 +16,6 @@ describe Oystercard do
     expect { subject.top_up(91) }.to raise_error described_class::LIMIT_ERROR
   end
 
-  it "reflects fare on balance" do
-    subject.top_up(90)
-    expect(subject.deduct(3.5)).to eq(86.5)
-  end
-
   it "changes card status to in journey when touched in" do
     subject.top_up(1)
     expect(subject.touch_in).to eq(:in_journey)
@@ -41,5 +36,11 @@ describe Oystercard do
   it "raises error when balance is low" do
     subject.top_up(0.9)
     expect {subject.touch_in}.to raise_error described_class::BALANCE_ERROR
+  end
+
+  it "deducts fare when journey end" do
+    subject.top_up(5)
+    subject.touch_in
+    expect {subject.touch_out}.to change{subject.balance}.by(-1)
   end
 end

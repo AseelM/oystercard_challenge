@@ -15,10 +15,6 @@ class Oystercard
     @balance += credit
   end
 
-  def deduct(fare)
-    @balance -= fare
-  end
-
   def touch_in
     fail BALANCE_ERROR if @balance < LIMIT_LOW
     @card_state = :in_journey
@@ -29,7 +25,14 @@ class Oystercard
   end
 
   def touch_out
+    deduct(LIMIT_LOW)
     @card_state = nil
+  end
+
+  private
+
+  def deduct(fare)
+    @balance -= fare
   end
 
 end
